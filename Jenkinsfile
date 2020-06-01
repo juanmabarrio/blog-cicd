@@ -20,7 +20,7 @@ node {
          }
       }
    }
-   stage('Results')  {
+   stage('Results')   {
       junit '**/target/surefire-reports/TEST-*.xml'
       archiveArtifacts 'target/*.jar'
    }
