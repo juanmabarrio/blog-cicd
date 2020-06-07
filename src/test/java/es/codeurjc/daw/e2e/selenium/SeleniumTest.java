@@ -37,8 +37,6 @@ public class SeleniumTest {
 
 	@BeforeEach
 	public void setupTest() {
-		String chromeDriverPath = "./home/juanmeta/.m2/repository/webdriver/chromedriver/linux64/80.0.3987.106/chromedrivergit "; 
-		System.setProperty("webdriver.chrome.driver", chromeDriverPath);
 		driver = new ChromeDriver();
 		wait = new WebDriverWait(driver, 10);
 	}
