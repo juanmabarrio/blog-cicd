@@ -18,11 +18,11 @@ node {
 
     if (env.BRANCH_NAME == 'develop') {
       stage('deploy to snapshot nexus') {
-        sh 'mvn deploy -DSkipTests '
+        sh 'mvn deploy -DskipTests '
       }
     } else if (env.BRANCH_NAME == 'master') {
       stage('deploy to releases nexus') {
-        sh 'mvn deploy -DSkipTests'
+        sh 'mvn deploy -DskipTests'
       }
     }
   }
