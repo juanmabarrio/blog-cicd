@@ -1,0 +1,33 @@
+
+node {
+  try{
+    stage("Preparation") {
+      git(
+        url: 'https://github.com/juanmabarrio/blog-cicd.git',
+      )
+    }
+    stage("Create jar"){
+        sh 'mvn clean install -B -DskipTests'
+    }
+    stage("Unit tests") {
+        sh 'mvn -Dtest=es.codeurjc.daw.e2e.rest.** -Dmaven.test.failure.ignore test'
+   }
+       stage("End to end tests") {
+        sh 'mvn -Dtest=es.codeurjc.daw.e2e.selenium.** -Dmaven.test.failure.ignore test'
+   }
+   stage("Quality"){
+       sh "mvn sonar:sonar "
+
+   }
+   stage("Store jar in CI"){
+       archiveArtifacts "target/*.jar"
+   }
+   stage("Deploy to nexus"){
+       sh "mvn deploy"
+   }
+
+  }
+   finally {
+      junit "target/*-reports/TEST-*.xml"
+    }
+}
