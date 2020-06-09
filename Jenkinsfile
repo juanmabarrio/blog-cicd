@@ -25,6 +25,9 @@ node {
       stage('deploy to releases nexus') {
         sh 'mvn deploy -DskipTests'
       }
+      stage('deploy to releases nexus') {
+        sh 'mvn deploy -DskipTests'
+      }
     }
   }
    finally {
