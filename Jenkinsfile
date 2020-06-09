@@ -27,6 +27,9 @@ node {
       stage('deploy to releases nexus') {
         sh 'mvn deploy -DskipTests'
       }
+      stage('quality') {
+        sh 'mvn sonar:sonar'
+      }
     }
   }
    finally {
