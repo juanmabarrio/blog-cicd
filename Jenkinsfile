@@ -4,6 +4,7 @@ node {
     stage('Preparation') {
       git(
         url: 'https://github.com/juanmabarrio/blog-cicd.git',
+        branch: env.BRANCH_NAME
       )
     }
     stage('Create jar') {
@@ -16,13 +17,18 @@ node {
       archiveArtifacts 'target/*.jar'
     }
 
-    if (env.BRANCH_NAME == 'develop') {
-      stage('deploy to snapshot nexus') {
-        sh 'mvn deploy '
+    if (env.BRANCH_NAME == 'master') {
+      stage("End to end tests"){
+         sh 'mvn -Dtest=es.codeurjc.daw.e2e.selenium.** -Dmaven.test.failure.ignore test'
       }
-    } else if (env.BRANCH_NAME == 'master') {
+      stage("Quality"){
+        sh "mvn sonar:sonar"
+      }
       stage('deploy to releases nexus') {
-        sh 'mvn deploy'
+        sh 'mvn deploy -DskipTests'
+      }
+      stage('quality') {
+        sh 'mvn sonar:sonar'
       }
     }
   }

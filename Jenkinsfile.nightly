@@ -4,6 +4,7 @@ node {
     stage("Preparation") {
       git(
         url: 'https://github.com/juanmabarrio/blog-cicd.git',
+         branch: 'develop'
       )
     }
     stage("Create jar"){
@@ -23,7 +24,7 @@ node {
        archiveArtifacts "target/*.jar"
    }
    stage("Deploy to nexus"){
-       sh "mvn deploy"
+       sh "mvn deploy -DskipTests"
    }
 
   }
