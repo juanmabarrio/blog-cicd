@@ -17,11 +17,13 @@ node {
       archiveArtifacts 'target/*.jar'
     }
 
-    if (env.BRANCH_NAME == 'develop') {
-      stage('deploy to snapshot nexus') {
-        sh 'mvn deploy -DskipTests '
+    if (env.BRANCH_NAME == 'master') {
+      stage("End to end tests"){
+         sh 'mvn -Dtest=es.codeurjc.daw.e2e.selenium.** -Dmaven.test.failure.ignore test'
       }
-    } else if (env.BRANCH_NAME == 'master') {
+      stage("Quality"){
+        sh "mvn sonar:sonar"
+      }
       stage('deploy to releases nexus') {
         sh 'mvn deploy -DskipTests'
       }
