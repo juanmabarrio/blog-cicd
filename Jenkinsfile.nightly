@@ -23,7 +23,7 @@ node {
        archiveArtifacts "target/*.jar"
    }
    stage("Deploy to nexus"){
-       sh "mvn deploy"
+       sh "mvn deploy -DskipTests"
    }
 
   }
