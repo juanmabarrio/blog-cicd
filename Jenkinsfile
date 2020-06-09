@@ -4,6 +4,7 @@ node {
     stage('Preparation') {
       git(
         url: 'https://github.com/juanmabarrio/blog-cicd.git',
+        branch: env.BRANCH_NAME
       )
     }
     stage('Create jar') {
